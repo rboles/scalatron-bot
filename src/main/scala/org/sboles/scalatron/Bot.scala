@@ -39,39 +39,31 @@ class Bot {
     val view = View(viewString)
 
     view.offsetToNearest('P') match {
-      // eat plant
+      // eat Zugar
       case Some(offset) => goGetIt(offset) 
       case None => view.offsetToNearest('B') match {
-        // chase food
+        // chase Fluppet
         case Some(offset) => goGetIt(offset)
-        case None => view.offsetToNearest('W') match {
-          // avoid wall
-          case Some(offset) => "Move(direction="+ offset.signum.negate + ")"
-          case None => "Move(direction=" + XY.Right + ")"
+        case None => view.offsetToNearest('m') match {
+          // avoid Enemy Master
+          case Some(offset) => avoid(offset)
+          case None => view.offsetToNearest('s') match {
+            // avoid Enemy Slave
+            case Some(offset) => avoid(offset)
+            case None => view.offsetToNearest('W') match {
+              // avoid Wall
+              case Some(offset) => avoid(offset)
+              case None => "Move(direction=" + XY.Right + ")"
+            }
+          }
         }
       }
     }
-
-        // view.offsetToNearest('W') match {
-        //   case Some(offset) => {
-        //     // go away from the wall
-        //     val unitOfOffset = offset.signum
-        //     "Move(direction=" + unitOfOffset.negate + ")"
-        //   }
-        //   case None => "Move(direction=" + XY.Right + ")"
-        // }
-
-        // move to the right
-        // "Move(direction=" + XY.Right + ")"
-        // view.offsetToNearest(' ') match {
-        //   case Some(offset) => {
-        //     val unitOffset = offset.signum
-        //     "Move(direction=" + unitOffset + ")"
-        //   } case None => ""
-        // }
   }
 
   def goGetIt(offset: XY) = "Move(direction=" + offset.signum + ")"
+
+  def avoid(offset: XY) = "Move(direction=" + offset.signum.negate + ")"
 
   def reactAsSlave(view: View, params: Map[String, String]) = {
     "Status(text=Slave)"
