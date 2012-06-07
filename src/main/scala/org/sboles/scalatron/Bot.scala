@@ -39,10 +39,13 @@ class Bot {
     val view = View(viewString)
 
     view.offsetToNearest('P') match {
+      // eat plant
       case Some(offset) => goGetIt(offset) 
       case None => view.offsetToNearest('B') match {
+        // chase food
         case Some(offset) => goGetIt(offset)
         case None => view.offsetToNearest('W') match {
+          // avoid wall
           case Some(offset) => "Move(direction="+ offset.signum.negate + ")"
           case None => "Move(direction=" + XY.Right + ")"
         }
