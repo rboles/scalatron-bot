@@ -34,18 +34,24 @@ class Bot {
     else reactAsSlave(view, params)
   }
 
+  def goGetIt(offset: XY) = "Move(direction=" + offset.signum + ")"
+
+  def avoid(offset: XY) = "Move(direction=" + offset.signum.negate + ")"
+
   def reactAsMaster(view: View, params: Map[String, String]) = {
     val viewString = params("view")
+    val energy = params("energy")
+    val name = params("name")
     val view = View(viewString)
 
     view.offsetToNearest('P') match {
       // eat Zugar
       case Some(offset) => goGetIt(offset) 
       case None => view.offsetToNearest('B') match {
-        // chase Fluppet
+        // chase and eat Fluppet
         case Some(offset) => goGetIt(offset)
-        case None => view.offsetToNearest('m') match {
-          // avoid Enemy Master
+        case None => view.offsetToNearest('b') match {
+          // avoid Snorg
           case Some(offset) => avoid(offset)
           case None => view.offsetToNearest('s') match {
             // avoid Enemy Slave
@@ -61,12 +67,25 @@ class Bot {
     }
   }
 
-  def goGetIt(offset: XY) = "Move(direction=" + offset.signum + ")"
-
-  def avoid(offset: XY) = "Move(direction=" + offset.signum.negate + ")"
-
   def reactAsSlave(view: View, params: Map[String, String]) = {
-    "Status(text=Slave)"
+    val viewString = params("view")
+    val energy = params("energy")
+    val name = params("names")
+    val view = View(viewString)
+
+    view.offsetToNearest('s') match {
+      // Attack Enemy Slave
+      case Some(offset) => goGetIt(offset)
+      case None => view.offsetToNearest('m') match {
+        // Attack Enemy Master
+        case Some(offset) => goGetIt(offset)
+        case None => view.offsetToNearest('W') match {
+          // Navigate Walls
+          case Some(offset) => avoid(offset)
+          case None => "Move(direction=" + XY.Left + ")"
+        }
+      }
+    }
   }
 }
 
