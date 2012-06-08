@@ -54,12 +54,19 @@ object Master {
   def reactToFluppet(fluppet: XY, view: View, params: Map[String, String]): String = {
     println("React to Fluppet at " + fluppet)
 
-    // TODO determine which is closer
-
     view.offsetToNearest('P') match {
       case Some(zugar) => {
-        println("Go get Zugar instead")
-        reactToZugar(zugar, view, params)
+        val fluppetDistance = view.center.distanceTo(fluppet)
+        val zugarDistance = view.center.distanceTo(zugar)
+        println("- fluppet distance: " + fluppetDistance)
+        println("- zugar distance: " + zugarDistance)
+        if ( zugarDistance < fluppetDistance ) {
+          println("- chase zugar instead")
+          reactToZugar(zugar, view, params)
+        } else {
+          println("- continue chasing fluppet")
+          chase(fluppet)
+        }
       }
       case None => {
         chase(fluppet)
