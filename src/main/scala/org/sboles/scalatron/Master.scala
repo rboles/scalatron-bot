@@ -46,9 +46,9 @@ object Master {
 
   def avoid(offset: XY) = move(offset.signum.negate)
 
-  def reactToZugar(offset: XY, view: View, params: Map[String, String]): String = {
-    println("React to Zugar at " + offset)
-    chase(offset)
+  def reactToZugar(zugar: XY, view: View, params: Map[String, String]): String = {
+    println("React to Zugar at " + zugar)
+    chase(zugar)
   }
 
   def reactToFluppet(fluppet: XY, view: View, params: Map[String, String]): String = {
@@ -74,16 +74,16 @@ object Master {
     }
   }
 
-  def reactToSnorg(offset: XY, view: View, params: Map[String, String]): String = {
-    avoid(offset)
+  def reactToSnorg(snorg: XY, view: View, params: Map[String, String]): String = {
+    avoid(snorg)
   }
 
-  def reactToToxifera(offset: XY, view: View, params: Map[String, String]): String = {
-    avoid(offset)
+  def reactToToxifera(toxifera: XY, view: View, params: Map[String, String]): String = {
+    avoid(toxifera)
   }
 
-  def reactToEnemySlave(offset: XY, view: View, params: Map[String, String]): String = {
-    chase(offset)
+  def reactToEnemySlave(slave: XY, view: View, params: Map[String, String]): String = {
+    chase(slave)
   }
 
   def search(view: View, params: Map[String, String]): String = {
