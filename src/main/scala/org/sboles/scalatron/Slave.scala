@@ -1,13 +1,13 @@
 
 package org.sboles.scalatron
 
-object Slave {
+object Slave extends BotTrait{
 
   def goGetIt(offset: XY) = "Move(direction=" + offset.signum + ")"
 
   def avoid(offset: XY) = "Move(direction=" + offset.signum.negate + ")"
 
-  def react(params: Map[String, String]): String = {
+  override def react(params: Map[String, String]): String = {
     val view = View(params("view"))
     val name = params("name")
     val energy = params("energy")
@@ -25,5 +25,11 @@ object Slave {
         }
       }
     }
+  }
+
+  override def search(view: View, params: Map[String, String]): String = {
+    val energy = params("energy")
+
+    move(XY(0,0))
   }
 }

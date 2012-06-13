@@ -1,15 +1,9 @@
 
 package org.sboles.scalatron
 
-/**
- *
- * TODO
- * - When chasing Fluppet, determine if Zugar is closer than Fluppet, if so,
- * take a detour to go get it.
- */
-object Master {
+object Master extends BotTrait {
 
-  def react(params: Map[String, String]): String = {
+  override def react(params: Map[String, String]): String = {
     val view = View(params("view"))
     val name = params("name")
 
@@ -32,19 +26,26 @@ object Master {
     }
   }
 
-  def move(xy: XY) = {
-    println("Move " + xy)
-    "Move(direction=" + xy + ",last=" + xy + ")"
+  override def search(view: View, params: Map[String, String]): String = {
+    val energy = params("energy")
+
+    move(XY(0,0))
+
+    /*
+    view.offsetToNearest('W') match {
+      // avoid Wall
+      case Some(offset) => "Move(direction=" + (
+        if ( view.center.distanceTo(offset.signum) <= 1.0 ) offset.signum match {
+          case XY.Right => XY.Left
+          case XY.Left => XY.Right
+          case XY.Up => XY.Down
+          case XY.Down => XY.Up
+          case _ => XY.Right
+        } else XY.Right ) + ")"
+      case None => "Move(direction=" + XY.Right + ")"
+    }
+    */
   }
-
-  def spawn(offset: XY, energy: Int) =
-    "Spawn(direction=" + offset.signum + ",name=slave,energy=" + energy + ")"
-
-  def spawn(offset: XY): String = spawn(offset, 100)
-
-  def chase(offset: XY) = move(offset.signum)
-
-  def avoid(offset: XY) = move(offset.signum.negate)
 
   def reactToZugar(zugar: XY, view: View, params: Map[String, String]): String = {
     println("React to Zugar at " + zugar)
@@ -84,26 +85,5 @@ object Master {
 
   def reactToEnemySlave(slave: XY, view: View, params: Map[String, String]): String = {
     chase(slave)
-  }
-
-  def search(view: View, params: Map[String, String]): String = {
-    val energy = params("energy")
-
-    move(XY(0,0))
-
-    /*
-    view.offsetToNearest('W') match {
-      // avoid Wall
-      case Some(offset) => "Move(direction=" + (
-        if ( view.center.distanceTo(offset.signum) <= 1.0 ) offset.signum match {
-          case XY.Right => XY.Left
-          case XY.Left => XY.Right
-          case XY.Up => XY.Down
-          case XY.Down => XY.Up
-          case _ => XY.Right
-        } else XY.Right ) + ")"
-      case None => "Move(direction=" + XY.Right + ")"
-    }
-    */
   }
 }
