@@ -35,5 +35,5 @@ trait BotTrait {
       case false => defaultDirection
     }
 
-  def react(params: Map[String, String]): String
+  def react(params: Map[String, String]): String = move(XY.Zero)
 }
