@@ -3,10 +3,6 @@ package org.sboles.scalatron
 
 object Slave extends BotTrait{
 
-  def goGetIt(offset: XY) = "Move(direction=" + offset.signum + ")"
-
-  def avoid(offset: XY) = "Move(direction=" + offset.signum.negate + ")"
-
   override def react(params: Map[String, String]): String = {
     val view = View(params("view"))
     val name = params("name")
@@ -14,10 +10,10 @@ object Slave extends BotTrait{
 
     view.offsetToNearest('s') match {
       // Attack Enemy Slave
-      case Some(offset) => goGetIt(offset)
+      case Some(offset) => chase(offset)
       case None => view.offsetToNearest('m') match {
         // Attack Enemy Master
-        case Some(offset) => goGetIt(offset)
+        case Some(offset) => chase(offset)
         case None => view.offsetToNearest('W') match {
           // Navigate Walls
           case Some(offset) => avoid(offset)
