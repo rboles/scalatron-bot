@@ -1,6 +1,9 @@
 
 package org.sboles.scalatron
 
+/**
+ * @author sboles
+ */
 trait BotTrait {
 
   def move(xy: XY) = {
