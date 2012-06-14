@@ -19,7 +19,21 @@ trait BotTrait {
 
   def avoid(offset: XY) = move(offset.signum.negate)
 
-  def search(view: View, params: Map[String, String]): String
+  def search(view: View, params: Map[String, String]): String = {
+    val last = lastMove(params)
+
+    println("Direction of last move: " + last)
+
+    move(last)
+  }
+
+  def defaultDirection = XY(0,1)
+
+  def lastMove(params: Map[String, String]): XY =
+    params.contains("last") match {
+      case true => XY(params("last"))
+      case false => defaultDirection
+    }
 
   def react(params: Map[String, String]): String
 }

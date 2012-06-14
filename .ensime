@@ -8,4 +8,6 @@
 
 :use-maven t
 
+:target "target/classes"
+
 )

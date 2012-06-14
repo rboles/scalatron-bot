@@ -26,12 +26,12 @@ object Master extends BotTrait {
     }
   }
 
+  /*
   override def search(view: View, params: Map[String, String]): String = {
     val energy = params("energy")
 
     move(XY(0,0))
 
-    /*
     view.offsetToNearest('W') match {
       // avoid Wall
       case Some(offset) => "Move(direction=" + (
@@ -44,8 +44,8 @@ object Master extends BotTrait {
         } else XY.Right ) + ")"
       case None => "Move(direction=" + XY.Right + ")"
     }
-    */
   }
+  */
 
   def reactToZugar(zugar: XY, view: View, params: Map[String, String]): String = {
     println("React to Zugar at " + zugar)
