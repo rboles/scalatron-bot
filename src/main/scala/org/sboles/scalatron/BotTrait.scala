@@ -11,6 +11,15 @@ trait BotTrait {
     "Move(direction=" + xy + ",last=" + xy + ")"
   }
 
+  def move(xy: XY, view: View): String = {
+    println("Cell in from of me: '" + view.cellAtAbsPos(xy) + "'")
+
+    view.cellAtAbsPos(xy) match {
+      case '_' => move(xy.negate)
+      case _ => move(xy)
+    }
+  }
+
   def spawn(offset: XY, energy: Int) = {
     println("Spawn: " + offset)
     "Spawn(direction=" + offset.signum + ",name=slave,energy=" + energy + ")"
@@ -27,7 +36,7 @@ trait BotTrait {
 
     println("Direction of last move: " + last)
 
-    move(last)
+    move(last, view)
   }
 
   def defaultDirection = XY(0,1)
