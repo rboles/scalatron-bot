@@ -1,9 +1,8 @@
-
 package org.sboles.scalatron
 
 /**
- * @author sboles
- */
+  * @author sboles
+  */
 trait BotTrait {
 
   def move(xy: XY) = {
@@ -12,7 +11,7 @@ trait BotTrait {
   }
 
   def move(xy: XY, view: View): String = {
-    println("Cell in from of me: '" + view.cellAtAbsPos(xy) + "'")
+    println("Cell in front of me: '" + view.cellAtAbsPos(xy) + "'")
 
     view.cellAtAbsPos(xy) match {
       case '_' => move(xy.negate)
@@ -20,7 +19,7 @@ trait BotTrait {
     }
   }
 
-  def spawn(offset: XY, energy: Int) = {
+  def spawn(offset: XY, energy: Int): String = {
     println("Spawn: " + offset)
     "Spawn(direction=" + offset.signum + ",name=slave,energy=" + energy + ")"
   }
@@ -31,10 +30,14 @@ trait BotTrait {
 
   def avoid(offset: XY) = move(offset.signum.negate)
 
+  /**
+    * Very dumb search... keep moving in whatever was the last direction
+    * until an interuption.
+    */
   def search(view: View, params: Map[String, String]): String = {
     val last = lastMove(params)
 
-    println("Direction of last move: " + last)
+    println("Search, direction of last move: " + last)
 
     move(last, view)
   }

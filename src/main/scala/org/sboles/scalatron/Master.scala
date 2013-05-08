@@ -30,7 +30,9 @@ object Master extends BotTrait {
   override def search(view: View, params: Map[String, String]): String = {
     val energy = params("energy")
 
-    move(XY(0,0))
+    val last = lastMove(params)
+
+    // move(XY(0,0))
 
     view.offsetToNearest('W') match {
       // avoid Wall
